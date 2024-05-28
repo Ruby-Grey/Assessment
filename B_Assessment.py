@@ -41,7 +41,7 @@ def ask_addition_question():
 
 def addition_quiz():
 
-    correct_count = 0
+    correct_answers = 0
 
     for i in range(num_questions):
         print(f"Question {i+1} of {num_questions}")
@@ -49,25 +49,18 @@ def addition_quiz():
         got_correct_answer = ask_addition_question()
         if got_correct_answer:
 
-            correct_count += 1
+            correct_answers += 1
 
-    print(f"You got {correct_count} out of {num_questions} correct!")
-    if correct_count == num_questions:
-        print("Nice, you got them all 😀👍")
-        print()
-    elif correct_count == 0:
-        print("...There's room for improvement. Keep practicing! ")
-        print()
-
+    return correct_answers
 
 # subtraction questions
 
+
 def ask_subtraction_question():
 
-    number1 = random.randint(1, 10)
+    subtraction_answer = random.randint(1, 10)
     number2 = random.randint(1, 10)
-
-    subtraction_answer = number1 - number2
+    number1 = subtraction_answer + number2
 
     while True:
 
@@ -92,22 +85,16 @@ def ask_subtraction_question():
 
 def subtraction_quiz():
 
-    correct_count = 0
+    correct_answers = 0
 
     for i in range(num_questions):
         print(f"Question {i + 1} of {num_questions}")
 
         got_correct_answer = ask_subtraction_question()
         if got_correct_answer:
-            correct_count += 1
+            correct_answers += 1
 
-    print(f"You got {correct_count} out of {num_questions} correct!")
-    if correct_count == num_questions:
-        print("Nice, you got them all 😀👍")
-        print()
-    elif correct_count == 0:
-        print("...There's room for improvement. Keep practicing! ")
-        print()
+    return correct_answers
 
 
 # multiplication questions
@@ -142,22 +129,16 @@ def ask_multiplication_question():
 
 def multiplication_quiz():
 
-    correct_count = 0
+    correct_answers = 0
 
     for i in range(num_questions):
         print(f"Question {i + 1} of {num_questions}")
 
         got_correct_answer = ask_multiplication_question()
         if got_correct_answer:
-            correct_count += 1
+            correct_answers += 1
 
-    print(f"You got {correct_count} out of {num_questions} correct!")
-    if correct_count == num_questions:
-        print("Nice, you got them all 😀👍")
-        print()
-    elif correct_count == 0:
-        print("...There's room for improvement. Keep practicing! ")
-        print()
+    return correct_answers
 
 
 # division questions
@@ -191,24 +172,46 @@ def ask_division_question():
 
 def division_quiz():
 
-    correct_count = 0
+    correct_answers = 0
 
     for i in range(num_questions):
         print(f"Question {i + 1} of {num_questions}")
 
         got_correct_answer = ask_division_question()
         if got_correct_answer:
-            correct_count += 1
+            correct_answers += 1
 
-    print(f"You got {correct_count} out of {num_questions} correct!")
-    if correct_count == num_questions:
-        print("Nice, you got them all 😀👍")
-        print()
-    elif correct_count == 0:
-        print("...There's room for improvement. Keep practicing! ")
-        print()
+    return correct_answers
 
-# mixed questions
+
+# make it so that you get mixed questions when
+def mixed_quiz():
+
+    correct_answers = 0
+
+    for i in range(num_questions):
+        print(f"Question {i + 1} of {num_questions}")
+
+        random_question = random.randint(0, 3)
+
+        got_correct_answer = False
+
+        if random_question == 0:
+            got_correct_answer = ask_addition_question()
+
+        elif random_question == 1:
+            got_correct_answer = ask_subtraction_question()
+
+        elif random_question == 2:
+            got_correct_answer = ask_multiplication_question()
+
+        elif random_question == 3:
+            got_correct_answer = ask_division_question()
+
+        if got_correct_answer:
+            correct_answers += 1
+
+    return correct_answers
 
 
 # Check that users have entered a valid
@@ -317,11 +320,6 @@ def get_question_amount(question):
 
 # Main routine
 
-# Initialise game variables
-question_num = 0
-questions_correct = 0
-questions_incorrect = 0
-
 print()
 print("👍 Ruby's maths quiz 👍")
 print()
@@ -371,22 +369,52 @@ num_questions = get_question_amount("How many questions do you want to answer? "
 print("Test begin!")
 print()
 
+correct_count = 0
+
 if user_choice == 1:
 
-    addition_quiz()
+    correct_count = addition_quiz()
 
 elif user_choice == 2:
 
-    subtraction_quiz()
+    correct_count = subtraction_quiz()
 
 elif user_choice == 3:
 
-    multiplication_quiz()
+    correct_count = multiplication_quiz()
 
 elif user_choice == 4:
 
-    division_quiz()
+    correct_count = division_quiz()
 
 elif user_choice == 5:
 
-    print("MIXED")
+    correct_count = mixed_quiz()
+
+    print(f"You got {correct_count} out of {num_questions} correct!")
+    if correct_count == num_questions:
+        print("Nice, you got them all 😀👍")
+        print()
+    elif correct_count == 0:
+        print("...There's room for improvement. Keep practicing! ")
+        print()
+
+
+if num_questions > 0:
+
+    questions_incorrect = num_questions - correct_count
+
+    # calculate statistics
+    percent_correct = correct_count / num_questions * 100
+    percent_incorrect = questions_incorrect / num_questions * 100
+
+
+show_history = string_checker("Do you want to see your stats? ")
+if show_history == "yes":
+    print("\n📊 GAME STATISTICS 📊")
+    print(f"👍 Correct: {percent_correct:.2f} \t")
+    print(f"😢 Incorrect: {percent_incorrect:.2f} \t")
+
+else:
+    print()
+    print("Thanks for attempting the quiz!")

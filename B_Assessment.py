@@ -184,7 +184,7 @@ def division_quiz():
     return correct_answers
 
 
-# make it so that you get mixed questions when
+# Mixed questions (gives a random type of question each time)
 def mixed_quiz():
 
     correct_answers = 0
@@ -294,6 +294,7 @@ def get_question_amount(question):
 
         error1 = "Please enter an integer that is between 1-50!"
         error2 = "...Maybe that's a bit too many (the limit is 50)"
+        error3 = "ok fine then, bye"
 
         to_check = input(question)
 
@@ -301,7 +302,12 @@ def get_question_amount(question):
             response = int(to_check)
 
             # checks that the number is more than / equal to 1
-            if response < 1:
+
+            if response == 0:
+                print(error3)
+                quit()
+
+            elif response < 1:
                 print(error1)
                 print()
 
@@ -364,6 +370,7 @@ print(f"You chose {quiz_name}")
 print()
 num_questions = get_question_amount("How many questions do you want to answer? ")
 
+
 # Game loop starts here
 
 print("Test begin!")
@@ -381,7 +388,7 @@ elif user_choice == 2:
 
 elif user_choice == 3:
 
-    correct_count = multiplication_quiz()
+    correct_count = multiplication_quiz
 
 elif user_choice == 4:
 
@@ -399,19 +406,28 @@ elif user_choice == 5:
         print("...There's room for improvement. Keep practicing! ")
         print()
 
+# congratulates user if they got all the answers correct, and
+# encourages them to keep trying if they got it all incorrect
+if num_questions == correct_count:
+    print("Nice, you got them all!")
 
-if num_questions > 0:
+elif correct_count == 0:
+    print("...There's room for improvement. Keep practicing!")
 
-    questions_incorrect = num_questions - correct_count
 
-    # calculate statistics
-    percent_correct = correct_count / num_questions * 100
-    percent_incorrect = questions_incorrect / num_questions * 100
+# displays stats
+
+questions_incorrect = num_questions - correct_count
+
+# calculate statistics
+percent_correct = correct_count / num_questions * 100
+percent_incorrect = questions_incorrect / num_questions * 100
 
 
 show_history = string_checker("Do you want to see your stats? ")
 if show_history == "yes":
     print("\n📊 GAME STATISTICS 📊")
+    print(f"You got {correct_count} out of {num_questions} correct!")
     print(f"👍 Correct: {percent_correct:.2f} \t")
     print(f"😢 Incorrect: {percent_incorrect:.2f} \t")
 
